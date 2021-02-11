@@ -21,6 +21,7 @@ extension CKFSession.FlashMode {
 }
 
 @objc public class CKFPhotoSession: CKFSession, AVCapturePhotoCaptureDelegate, AVCaptureMetadataOutputObjectsDelegate {
+    @objc public var cameraDetectionHandler: (Int, Bool)->Void = {_,_  in }
     
     @objc public enum CameraDetection: UInt {
         case none, faces
@@ -264,6 +265,11 @@ extension CKFSession.FlashMode {
             } else {
                 self.faceDetectionBoxes[i].frame = CGRect.zero
             }
+        }
+        if self.faceDetectionBoxes.count != 0 {
+            cameraDetectionHandler(self.faceDetectionBoxes.count,true)
+        }else{
+            cameraDetectionHandler(self.faceDetectionBoxes.count,false)
         }
     }
 }
